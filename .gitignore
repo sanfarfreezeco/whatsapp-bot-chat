@@ -1,0 +1,6 @@
+/node_module/
+/.idea/
+/whatsapp-bot-chat.iml
+/.env
+# Project exclude paths
+/node_modules/
