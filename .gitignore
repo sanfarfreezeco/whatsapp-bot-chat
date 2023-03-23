@@ -1,6 +1,7 @@
-/node_module/
+/node_modules/
+/message/messageLogs/
+!/message/messageLogs/template
 /.idea/
+/.wwebjs_auth/
 /whatsapp-bot-chat.iml
 /.env
-# Project exclude paths
-/node_modules/
