@@ -54,66 +54,66 @@
 
 2. Open WhatsApp on your phone
 
-   1. Tap triple dot on top right corner of your screen (Android) or Tap Setting bar on bottom right of your screen (iOS)
+3. Tap triple dot on top right corner of your screen (Android) or Tap Setting bar on bottom right of your screen (iOS)
    
-      <div style="text-align: center">
+   <div style="text-align: center">
       
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_triple_dot.png)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_triple_dot.png)
       
-      Android
+   Android
             
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_setting_btn.jpeg)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_setting_btn.jpeg)
    
-      iOS
+   iOS
 
-      </div>
+   </div>
 
-   2. Tap Linked Devices
+4. Tap Linked Devices
 
-      <div style="text-align: center">
+   <div style="text-align: center">
 
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_linked_btn.png)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_linked_btn.png)
    
-      Android
+   Android
 
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_linked_btn.jpeg)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_linked_btn.jpeg)
 
-      iOS
+   iOS
 
-      </div>
+   </div>
    
-   3. Tap Link a device
+5. Tap Link a device
    
-      <div style="text-align: center">
+   <div style="text-align: center">
 
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_add-linked.png)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_add-linked.png)
    
-      Android
+   Android
 
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_add-linked.jpeg)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_add-linked.jpeg)
    
-      iOS
+   iOS
 
-      </div>
+   </div>
    
-   4. Move your phone camera to QRCode
+6. Move your phone camera to QRCode
 
-      <div style="text-align: center">
+   <div style="text-align: center">
 
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_scan.jpg)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_scan.jpg)
 
-      Android
+   Android
 
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_scan.jpeg)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_i_scan.jpeg)
    
-      iOS
+   iOS
 
-      </div>
+   </div>
    
-   6. Add name (if asked)
+7. Add name (if asked)
 
-      <div style="text-align: center">
+   <div style="text-align: center">
 
-      ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_linked-name.jpg)
+   ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_linked-name.jpg)
 
-      </div>
+   </div>
