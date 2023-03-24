@@ -11,8 +11,25 @@ function commands() {
             } else {
                 const newMessages = fs.readFileSync('message/messageLogs/template');
                 fs.writeFileSync(file, newMessages);
-                client.sendMessage(message.from, 'Ready!');
+                client.sendMessage(message.from, 'Ready!\nUse /stop to stop chat');
             }
+        }
+        let i = 1;
+        let iMax = 9999;
+        let fileOld;
+        if (message.body === '/stop') {
+            while (i < iMax) {
+                fileOld = 'message/messageLogs/stoppedChats/' + contact.id.user + '.' + i;
+                if (!fs.existsSync(fileOld)) {
+                    break;
+                }
+                i++;
+            }
+            const oldMessages = fs.readFileSync(file);
+            fs.writeFileSync(fileOld, oldMessages);
+            fs.rmSync(file);
+            client.sendMessage(message.from, 'Chat was stopped');
+            client.sendMessage(message.from, 'To start chat again please use /start again');
         }
     });
 }
