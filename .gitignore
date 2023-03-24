@@ -1,6 +1,8 @@
 /node_modules/
 /message/messageLogs/
 !/message/messageLogs/template
+/message/messageLogs/stoppedChats/
+!/message/messageLogs/stoppedChats/template
 /.idea/
 /.wwebjs_auth/
 /whatsapp-bot-chat.iml
