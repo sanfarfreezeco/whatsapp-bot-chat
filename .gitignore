@@ -1,9 +1,22 @@
+# node_modules
 /node_modules/
-/message/messageLogs/
+
+# messageLogs
+/message/messageLogs/*
+!/message/messageLogs/
 !/message/messageLogs/template
-/message/messageLogs/stoppedChats/
+
+# stoppedChats
+/message/messageLogs/stoppedChats/*
+!/message/messageLogs/stoppedChats/
 !/message/messageLogs/stoppedChats/template
-/.idea/
+
+# .wwebjs
 /.wwebjs_auth/
-/whatsapp-bot-chat.iml
+
+# .env
 /.env
+
+# IntelliJ IDEA Project File
+/.idea/
+/whatsapp-bot-chat.iml
