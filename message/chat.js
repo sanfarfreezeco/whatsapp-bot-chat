@@ -14,9 +14,7 @@ function chat() {
         if (message.body !== '/start' &&
             message.body !== '/stop'
         ) {
-            console.log('AI Response!');
             if (fs.existsSync(file)) {
-                console.log('History Found!');
                 let messages = [];
                 let messagesOri = [];
                 const prevFile = fs.readFileSync(file);
@@ -53,7 +51,6 @@ function chat() {
                 }
             }
             if (!fs.existsSync(file)) {
-                console.log('History Not Found!');
                 client.sendMessage(message.from, 'Please use /start to start a chat');
             }
         }
