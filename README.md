@@ -117,3 +117,8 @@
    ![image](https://cdn1.aurellyan.my.id/md_files/wa_a_linked-name.jpg)
 
    </div>
+
+## Update
+
+- [x] Added `/stop` to stop the chat (last chat will saved to `./message/messageLogs/stoppedChats/`)
+- [x] Not sending message from WhatsApp Statuses
