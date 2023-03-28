@@ -10,10 +10,13 @@ function chat() {
     client.on('message', async (message) => {
         const contact = await message.getContact();
         const file = 'message/messageLogs/' + contact.id.user;
+        if (message.from === 'status@broadcast') return;
         if (message.body !== '/start' &&
             message.body !== '/stop'
         ) {
+            console.log('AI Response!');
             if (fs.existsSync(file)) {
+                console.log('History Found!');
                 let messages = [];
                 let messagesOri = [];
                 const prevFile = fs.readFileSync(file);
@@ -50,6 +53,7 @@ function chat() {
                 }
             }
             if (!fs.existsSync(file)) {
+                console.log('History Not Found!');
                 client.sendMessage(message.from, 'Please use /start to start a chat');
             }
         }
