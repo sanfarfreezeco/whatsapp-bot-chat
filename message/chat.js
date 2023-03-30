@@ -12,15 +12,17 @@ function chat() {
         const file = 'message/messageLogs/' + contact.id.user;
         if (message.from === 'status@broadcast') return;
         if (message.body !== '/start' &&
-            message.body !== '/stop'
+            message.body !== '/stop' &&
+            message.body !== '/test' &&
+            message.body !== '/test2'
         ) {
             if (fs.existsSync(file)) {
-                let messages = [];
+                let messages;
                 let messagesOri = [];
                 const prevFile = fs.readFileSync(file);
                 const parseFile = JSON.parse(prevFile);
                 if (parseFile <= !15) {
-                    messagesOri = parseFile.slice(0, 15);
+                    messagesOri = parseFile.slice(0, -15);
                     messages = parseFile.slice(-15);
                 } else {
                     messages = parseFile;
@@ -39,10 +41,10 @@ function chat() {
                     messages.push(reply);
                     if (messagesOri <= !15) {
                         messagesOri = messagesOri.concat(messages);
-                        const json = JSON.stringify(messagesOri);
+                        const json = JSON.stringify(messagesOri, null, 4);
                         fs.writeFileSync(file, json);
                     } else {
-                        const json = JSON.stringify(message);
+                        const json = JSON.stringify(message, null, 4);
                         fs.writeFileSync(file, json);
                     }
                     client.sendMessage(message.from, reply.content);
