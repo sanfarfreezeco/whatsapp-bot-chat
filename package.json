@@ -10,6 +10,7 @@
   "author": "sanfarfreezeco",
   "license": "ISC",
   "dependencies": {
+    "date-and-time": "^2.4.3",
     "dotenv": "^16.0.3",
     "nodemon": "^2.0.21",
     "openai": "^3.2.1",

@@ -20,12 +20,17 @@ function commands() {
                 client.sendMessage(message.from, 'Ready!\nUse /stop to stop chat');
             }
         }
+
         let i = 1;
         let iMax = 9999;
         let fileOld;
+        const folderStop = 'message/messageLogs/stoppedChats/' + contact.id.user + '/';
         if (message.body === '/stop') {
+            if (!fs.existsSync(folderStop)) {
+                fs.mkdirSync(folderStop);
+            }
             while (i < iMax) {
-                fileOld = 'message/messageLogs/stoppedChats/' + contact.id.user + '.' + i;
+                fileOld = folderStop + contact.id.user + '.' + i;
                 if (!fs.existsSync(fileOld)) {
                     break;
                 }
@@ -38,6 +43,27 @@ function commands() {
             fs.rmSync(file);
             client.sendMessage(message.from, 'Chat was stopped');
             client.sendMessage(message.from, 'To start chat again please use /start again');
+        }
+
+        let listHistory = [];
+        if (message.body === '/history') {
+            if (!fs.existsSync(folderStop)) {
+                client.sendMessage(message.from, 'You don\'t have any chat history!');
+            } else {
+                while (i < iMax) {
+                    fileOld = folderStop + contact.id.user + '.' + i;
+                    if (!fs.existsSync(fileOld)) {
+                        i--;
+                        break;
+                    } else {
+                        const historyFile = fs.readFileSync(fileOld);
+                        const parseHistory = JSON.parse(historyFile);
+                        listHistory.push(i + '.\nStopped At: ' + parseHistory[0].stopped_at + '\nLast chat: ' + parseHistory[parseHistory.length - 2].content);
+                        i++;
+                    }
+                }
+                client.sendMessage(message.from, 'Chat history\n\n' + listHistory.join('\n'));
+            }
         }
     });
 }

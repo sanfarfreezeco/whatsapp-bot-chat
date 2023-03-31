@@ -14,6 +14,7 @@ function chat() {
         if (message.from === 'status@broadcast') return;
         if (message.body !== '/start' &&
             message.body !== '/stop' &&
+            message.body !== '/history' &&
             message.body !== '/test' &&
             message.body !== '/test2' &&
             message.body !== '/test3') {

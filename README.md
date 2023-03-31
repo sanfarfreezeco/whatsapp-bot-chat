@@ -122,3 +122,5 @@
 
 - [x] Added `/stop` to stop the chat (last chat will saved to `./message/messageLogs/stoppedChats/`)
 - [x] Not sending message from WhatsApp Statuses
+- [x] `./message/messageLogs/` now easier to read
+- [x] Added `/history` to show stopped chat history
