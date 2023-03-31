@@ -65,6 +65,44 @@ function commands() {
                 client.sendMessage(message.from, 'Chat history\n\n' + listHistory.join('\n'));
             }
         }
+
+        if (message.body === '/history show') {
+            if (!fs.existsSync(folderStop)) {
+                client.sendMessage(message.from, 'You don\'t have any chat history!');
+            } else {
+                client.sendMessage(message.from, 'Please insert the number of your chat history\nExample: /history show 1\nTo show number 1 of chat history from your list');
+                client.sendMessage(message.from, 'Use: /history\nTo see list of your chat history');
+            }
+        }
+        if (message.body.slice(0, 14) === '/history show ') {
+            if (!fs.existsSync(folderStop)) {
+                client.sendMessage(message.from, 'You don\'t have any chat history!');
+            } else {
+                const n = message.body.slice(14);
+                const fileHistory = folderStop + contact.id.user + '.' + n;
+                if (!fs.existsSync(fileHistory)) {
+                    client.sendMessage(message.from, 'Number ' + n + ' not found on your chat history list!');
+                    client.sendMessage(message.from, 'Use: /history\nTo see list of your chat history');
+                } else {
+                    const parseHistory = JSON.parse(fs.readFileSync(fileHistory)).slice(2);
+                    let a = 0;
+                    const chats = [];
+                    while (a < parseHistory.length) {
+                        let author;
+                        let msg = parseHistory[a].content;
+                        if (parseHistory[a].role === 'user') {
+                            author = contact.pushname;
+                        }
+                        if (parseHistory[a].role === 'assistant') {
+                            author = client.info.pushname;
+                        }
+                        chats.push(author + ': ' + msg);
+                        a++;
+                    }
+                    client.sendMessage(message.from, chats.join('\n\n====================\n\n'));
+                }
+            }
+        }
     });
 }
 

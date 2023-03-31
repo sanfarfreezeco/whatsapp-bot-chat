@@ -124,3 +124,4 @@
 - [x] Not sending message from WhatsApp Statuses
 - [x] `./message/messageLogs/` now easier to read
 - [x] Added `/history` to show stopped chat history
+- [x] Added `/history show [list number]` to show chat on stopped chat history based on list number
