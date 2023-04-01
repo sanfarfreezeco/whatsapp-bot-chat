@@ -52,11 +52,21 @@
 
 [How to login WhatsApp using QRCode Connection](QRConnection.md)
 
+## Features
+
+- `/start` Start a chat
+- `/stop` Stop a chat
+- `/help` Show this help message
+- `/history` Show list of stopped chat
+  - `/history` show [list number] Show stopeed chat history from list number
+
 ## Update
 
 March 24, 2023
 
-- [x] Added `/stop` to stop the chat (last chat will saved to `./message/messageLogs/stoppedChats/`)
+- [x] Added `/stop` to stop the chat
+
+  - Stopped chat will saved to `./message/messageLogs/stoppedChats/`
 
 March 28, 2023
 
@@ -72,3 +82,6 @@ April 1, 2023
 - [x] Added `/history show [list number]` to show chat on stopped chat history based on list number
 - [x] Added `/help` command
 - [x] Added feature to chat on Group Chat
+  - Chat log will saved to `./message/messageLogs/groups/`
+  - Stopped chats will saved to `./message/messageLogs/groups/stoppedChats`
+  - Chat log saving user name with filename `./message/messageLogs/groups/[group id].usr`
