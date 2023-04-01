@@ -5,9 +5,12 @@ const date = require('date-and-time');
 function commands() {
     client.on('message', async (message) => {
         const contact = await message.getContact();
-        const file = 'message/messageLogs/' + contact.id.user;
+        let file = 'message/messageLogs/' + contact.id.user;
         const now = new Date();
         const calendar = date.format(now, 'dddd, MMMM DD YYYY HH:mm:ss.SSS [UTC]ZZ');
+        if (message.from.slice(-5) === '@g.us') {
+            file = 'message/messageLogs/groups/' + message.from.slice(0, -5);
+        }
         if (message.body.slice(0, 7) === '/start ') {
             const arg = message.body.slice(7);
             client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /start to start chat');
@@ -16,6 +19,9 @@ function commands() {
             if (fs.existsSync(file)) {
                 client.sendMessage(message.from, 'You are already started a chat');
             } else {
+                if (message.from.slice(-5) === '@g.us') {
+                    fs.writeFileSync(file + '.usr', fs.readFileSync('message/messageLogs/groups/templateUser'));
+                }
                 const newMessages = JSON.parse(fs.readFileSync('message/messageLogs/template'));
                 const createDate = {"create_at": calendar, "last_chatting": calendar, "stopped_at": "null"};
                 newMessages.splice(0, 0, createDate);
@@ -28,7 +34,10 @@ function commands() {
         let i = 1;
         let iMax = 9999;
         let fileOld;
-        const folderStop = 'message/messageLogs/stoppedChats/' + contact.id.user + '/';
+        let folderStop = 'message/messageLogs/stoppedChats/' + contact.id.user + '/';
+        if (message.from.slice(-5) === '@g.us') {
+            folderStop = 'message/messageLogs/groups/stoppedChats/' + message.from.slice(0, -5) + '/';
+        }
         if (message.body.slice(0, 6) === '/stop ') {
             const arg = message.body.slice(6);
             client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /stop to stop chat');
@@ -42,10 +51,16 @@ function commands() {
                 }
                 while (i < iMax) {
                     fileOld = folderStop + contact.id.user + '.' + i;
+                    if (message.from.slice(-5) === '@g.us') {
+                        fileOld = folderStop + message.from.slice(0, -5) + '.' + i;
+                    }
                     if (!fs.existsSync(fileOld)) {
                         break;
                     }
                     i++;
+                }
+                if (message.from.slice(-5) === '@g.us') {
+                    fs.renameSync(file + '.usr', fileOld + '.usr');
                 }
                 const oldMessages = JSON.parse(fs.readFileSync(file));
                 oldMessages[0].stopped_at = calendar;
@@ -71,6 +86,9 @@ function commands() {
             } else {
                 while (i < iMax) {
                     fileOld = folderStop + contact.id.user + '.' + i;
+                    if (message.from.slice(-5) === '@g.us') {
+                        fileOld = folderStop + message.from.slice(0, -5) + '.' + i;
+                    }
                     if (!fs.existsSync(fileOld)) {
                         i--;
                         break;
@@ -99,13 +117,17 @@ function commands() {
                 client.sendMessage(message.from, 'You don\'t have any chat history!');
             } else {
                 const n = message.body.slice(14);
-                const fileHistory = folderStop + contact.id.user + '.' + n;
+                let fileHistory = folderStop + contact.id.user + '.' + n;
+                if (message.from.slice(-5) === '@g.us') {
+                    fileHistory = folderStop + message.from.slice(0, -5) + '.' + n;
+                }
                 if (!fs.existsSync(fileHistory)) {
                     client.sendMessage(message.from, 'Number ' + n + ' not found on your chat history list!');
                     client.sendMessage(message.from, 'Use: /history\nTo see list of your chat history');
                 } else {
                     const parseHistory = JSON.parse(fs.readFileSync(fileHistory)).slice(2);
                     const parseHistoryDate = JSON.parse(fs.readFileSync(fileHistory)).slice(0, 1);
+                    const parseGroupUser = JSON.parse(fs.readFileSync(fileHistory + '.usr')).slice(1);
                     let a = 0;
                     const chats = [];
                     while (a < parseHistory.length) {
@@ -113,9 +135,15 @@ function commands() {
                         let msg = parseHistory[a].content;
                         if (parseHistory[a].role === 'user') {
                             author = contact.pushname;
+                            if (message.from.slice(-5) === '@g.us') {
+                                author = parseGroupUser[a].user;
+                            }
                         }
                         if (parseHistory[a].role === 'assistant') {
                             author = client.info.pushname;
+                            if (message.from.slice(-5) === '@g.us') {
+                                author = author + " [" + client.info.wid.user + "]";
+                            }
                         }
                         chats.push(author + ': ' + msg);
                         a++;

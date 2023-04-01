@@ -10,7 +10,10 @@ const date = require('date-and-time');
 function chat() {
     client.on('message', async (message) => {
         const contact = await message.getContact();
-        const file = 'message/messageLogs/' + contact.id.user;
+        let file = 'message/messageLogs/' + contact.id.user;
+        if (message.from.slice(-5) === '@g.us') {
+            file = 'message/messageLogs/groups/' + message.from.slice(0, -5);
+        }
         if (message.from === 'status@broadcast') return;
         if (message.body.slice(0, 1) !== '/') {
             if (fs.existsSync(file)) {
@@ -41,6 +44,14 @@ function chat() {
                     });
                     const reply = completion.data.choices[0].message;
                     messages.push(reply);
+                    if (message.from.slice(-5) === '@g.us') {
+                        const usrLogFile = file + '.usr';
+                        let usrList = JSON.parse(fs.readFileSync(usrLogFile));
+                        usrList.push({user: contact.pushname + " [" + contact.id.user + "]"});
+                        usrList.push({user: "bot [" + client.info.wid.user + "]"});
+                        const usrLog = JSON.stringify(usrList, null, 4);
+                        fs.writeFileSync(usrLogFile, usrLog);
+                    }
                     if (chat.length > 15) {
                         chatDate = chatDate.concat(messagesOri);
                         messagesOri = chatDate;
@@ -59,6 +70,7 @@ function chat() {
                 }
             }
             if (!fs.existsSync(file)) {
+                if (message.from.slice(-5) === '@g.us') return;
                 client.sendMessage(message.from, 'Please use /start to start a chat');
             }
         }
