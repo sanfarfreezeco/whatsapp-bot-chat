@@ -5,7 +5,7 @@
 /message/messageLogs/*
 !/message/messageLogs/
 !/message/messageLogs/template
-/message/messageLogs/groups/
+/message/messageLogs/groups/*
 !/message/messageLogs/groups/template
 !/message/messageLogs/groups/templateUser
 
@@ -13,7 +13,7 @@
 /message/messageLogs/stoppedChats/*
 !/message/messageLogs/stoppedChats/
 !/message/messageLogs/stoppedChats/template
-/message/messageLogs/groups/stoppedChats/
+/message/messageLogs/groups/stoppedChats/*
 !/message/messageLogs/groups/stoppedChats/template
 
 # .wwebjs
