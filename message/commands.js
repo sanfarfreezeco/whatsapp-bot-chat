@@ -82,6 +82,7 @@ function commands() {
                     }
                 }
                 client.sendMessage(message.from, 'Chat history\n\n' + listHistory.join('\n'));
+                client.sendMessage(message.from, 'Use /history show [list number]\nTo show chat history from your list');
             }
         }
 
