@@ -12,13 +12,7 @@ function chat() {
         const contact = await message.getContact();
         const file = 'message/messageLogs/' + contact.id.user;
         if (message.from === 'status@broadcast') return;
-        if (message.body !== '/start' &&
-            message.body !== '/stop' &&
-            message.body !== '/history' &&
-            message.body !== '/history show' && message.body.slice(0, 14) !== '/history show ' &&
-            message.body !== '/test' &&
-            message.body !== '/test2' &&
-            message.body !== '/test3') {
+        if (message.body.slice(0, 1) !== '/') {
             if (fs.existsSync(file)) {
                 let messages;
                 let messagesOri = [];
