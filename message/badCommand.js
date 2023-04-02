@@ -14,6 +14,8 @@ function badCommand() {
                 message.body.slice(0, 6) !== '/stop ' &&
                 message.body !== '/history' &&
                 message.body.slice(0, 9) !== '/history ' &&
+                message.body !== '/image' &&
+                message.body.slice(0, 7) !== '/image ' &&
                 message.body.slice(0, 5) !== '/test') {
                 const arg = message.body;
                 await client.sendMessage(message.from, 'Bad command `' + arg + '`');

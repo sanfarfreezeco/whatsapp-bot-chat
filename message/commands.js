@@ -127,7 +127,10 @@ function commands() {
                 } else {
                     const parseHistory = JSON.parse(fs.readFileSync(fileHistory)).slice(2);
                     const parseHistoryDate = JSON.parse(fs.readFileSync(fileHistory)).slice(0, 1);
-                    const parseGroupUser = JSON.parse(fs.readFileSync(fileHistory + '.usr')).slice(1);
+                    let parseGroupUser;
+                    if (message.from.slice(-5) === '@g.us') {
+                        parseGroupUser = JSON.parse(fs.readFileSync(fileHistory + '.usr')).slice(1);
+                    }
                     let a = 0;
                     const chats = [];
                     while (a < parseHistory.length) {
