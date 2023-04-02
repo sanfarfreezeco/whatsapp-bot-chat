@@ -4,8 +4,8 @@ function badCommand() {
     client.on('message', async (message) => {
         if (message.body.slice(0, 1) === '/') {
             if (message.body === '/') {
-                client.sendMessage(message.from, 'Please insert command');
-                client.sendMessage(message.from, 'Use /start to start chat\nUse /help to show help');
+                await client.sendMessage(message.from, 'Please insert command');
+                await client.sendMessage(message.from, 'Use /start to start chat\nUse /help to show help');
             } else if (message.body !== '/help' &&
                 message.body.slice(0, 6) !== '/help ' &&
                 message.body !== '/start' &&
@@ -16,8 +16,8 @@ function badCommand() {
                 message.body.slice(0, 9) !== '/history ' &&
                 message.body.slice(0, 5) !== '/test') {
                 const arg = message.body;
-                client.sendMessage(message.from, 'Bad command `' + arg + '`');
-                client.sendMessage(message.from, 'Use /help to show help');
+                await client.sendMessage(message.from, 'Bad command `' + arg + '`');
+                await client.sendMessage(message.from, 'Use /help to show help');
             }
         }
     });

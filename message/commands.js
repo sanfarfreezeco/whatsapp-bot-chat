@@ -13,11 +13,11 @@ function commands() {
         }
         if (message.body.slice(0, 7) === '/start ') {
             const arg = message.body.slice(7);
-            client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /start to start chat');
+            await client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /start to start chat');
         }
         if (message.body === '/start') {
             if (fs.existsSync(file)) {
-                client.sendMessage(message.from, 'You are already started a chat');
+                await client.sendMessage(message.from, 'You are already started a chat');
             } else {
                 if (message.from.slice(-5) === '@g.us') {
                     fs.writeFileSync(file + '.usr', fs.readFileSync('message/messageLogs/groups/templateUser'));
@@ -27,7 +27,7 @@ function commands() {
                 newMessages.splice(0, 0, createDate);
                 const json = JSON.stringify(newMessages, null, 4);
                 fs.writeFileSync(file, json);
-                client.sendMessage(message.from, 'Ready!\nUse /stop to stop chat');
+                await client.sendMessage(message.from, 'Ready!\nUse /stop to stop chat');
             }
         }
 
@@ -40,11 +40,11 @@ function commands() {
         }
         if (message.body.slice(0, 6) === '/stop ') {
             const arg = message.body.slice(6);
-            client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /stop to stop chat');
+            await client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /stop to stop chat');
         }
         if (message.body === '/stop') {
             if (!fs.existsSync(file)){
-                client.sendMessage(message.from, 'You did\'nt start the chat\nPlease use /start to start a chat');
+                await client.sendMessage(message.from, 'You did\'nt start the chat\nPlease use /start to start a chat');
             } else {
                 if (!fs.existsSync(folderStop)) {
                     fs.mkdirSync(folderStop);
@@ -67,8 +67,8 @@ function commands() {
                 const json = JSON.stringify(oldMessages, null, 4);
                 fs.writeFileSync(fileOld, json);
                 fs.rmSync(file);
-                client.sendMessage(message.from, 'Chat was stopped');
-                client.sendMessage(message.from, 'To start chat again please use /start again');
+                await client.sendMessage(message.from, 'Chat was stopped');
+                await client.sendMessage(message.from, 'To start chat again please use /start again');
             }
         }
 
@@ -77,12 +77,12 @@ function commands() {
             if (message.body !== '/history show' &&
                 message.body.slice(0, 14) !== '/history show ') {
                 const arg = message.body.slice(9);
-                client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /history to show stopped chat history');
+                await client.sendMessage(message.from, 'Error command argument `' + arg + '`\nPlease use /history to show stopped chat history');
             }
         }
         if (message.body === '/history') {
             if (!fs.existsSync(folderStop)) {
-                client.sendMessage(message.from, 'You don\'t have any chat history!');
+                await client.sendMessage(message.from, 'You don\'t have any chat history!');
             } else {
                 while (i < iMax) {
                     fileOld = folderStop + contact.id.user + '.' + i;
@@ -99,22 +99,22 @@ function commands() {
                         i++;
                     }
                 }
-                client.sendMessage(message.from, 'Chat history\n\n' + listHistory.join('\n'));
-                client.sendMessage(message.from, 'Use /history show [list number]\nTo show chat history from your list');
+                await client.sendMessage(message.from, 'Chat history\n\n' + listHistory.join('\n'));
+                await client.sendMessage(message.from, 'Use /history show [list number]\nTo show chat history from your list');
             }
         }
 
         if (message.body === '/history show') {
             if (!fs.existsSync(folderStop)) {
-                client.sendMessage(message.from, 'You don\'t have any chat history!');
+                await client.sendMessage(message.from, 'You don\'t have any chat history!');
             } else {
-                client.sendMessage(message.from, 'Please insert the number of your chat history\nExample: /history show 1\nTo show number 1 of chat history from your list');
-                client.sendMessage(message.from, 'Use: /history\nTo see list of your chat history');
+                await client.sendMessage(message.from, 'Please insert the number of your chat history\nExample: /history show 1\nTo show number 1 of chat history from your list');
+                await client.sendMessage(message.from, 'Use: /history\nTo see list of your chat history');
             }
         }
         if (message.body.slice(0, 14) === '/history show ') {
             if (!fs.existsSync(folderStop)) {
-                client.sendMessage(message.from, 'You don\'t have any chat history!');
+                await client.sendMessage(message.from, 'You don\'t have any chat history!');
             } else {
                 const n = message.body.slice(14);
                 let fileHistory = folderStop + contact.id.user + '.' + n;
@@ -122,8 +122,8 @@ function commands() {
                     fileHistory = folderStop + message.from.slice(0, -5) + '.' + n;
                 }
                 if (!fs.existsSync(fileHistory)) {
-                    client.sendMessage(message.from, 'Number ' + n + ' not found on your chat history list!');
-                    client.sendMessage(message.from, 'Use: /history\nTo see list of your chat history');
+                    await client.sendMessage(message.from, 'Number ' + n + ' not found on your chat history list!');
+                    await client.sendMessage(message.from, 'Use: /history\nTo see list of your chat history');
                 } else {
                     const parseHistory = JSON.parse(fs.readFileSync(fileHistory)).slice(2);
                     const parseHistoryDate = JSON.parse(fs.readFileSync(fileHistory)).slice(0, 1);
@@ -148,7 +148,7 @@ function commands() {
                         chats.push(author + ': ' + msg);
                         a++;
                     }
-                    client.sendMessage(message.from, 'Last Chats: ' + parseHistoryDate[0].last_chatting + '\nStopped At: ' + parseHistoryDate[0].stopped_at + '\n\n' + chats.join('\n\n====================\n\n'));
+                    await client.sendMessage(message.from, 'Last Chats: ' + parseHistoryDate[0].last_chatting + '\nStopped At: ' + parseHistoryDate[0].stopped_at + '\n\n' + chats.join('\n\n====================\n\n'));
                 }
             }
         }

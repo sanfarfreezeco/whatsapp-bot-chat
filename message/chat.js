@@ -33,6 +33,7 @@ function chat() {
                     messages = chat;
                 }
                 try {
+                    await (await message.getChat()).sendStateTyping();
                     const input = message.body;
                     messages.push({
                         role: "user",
@@ -64,14 +65,18 @@ function chat() {
                         const json = JSON.stringify(messages, null, 4);
                         fs.writeFileSync(file, json);
                     }
-                    client.sendMessage(message.from, reply.content);
+                    await client.sendMessage(message.from, reply.content);
                 } catch (err) {
-                    console.log(err);
+                    if (err.code === 'ECONNRESET') {
+                        await client.sendMessage(message.from, 'Error Connection to OpenAI\nPlease try again later');
+                    } else {
+                        console.log(err);
+                    }
                 }
             }
             if (!fs.existsSync(file)) {
                 if (message.from.slice(-5) === '@g.us') return;
-                client.sendMessage(message.from, 'Please use /start to start a chat');
+                await client.sendMessage(message.from, 'Please use /start to start a chat');
             }
         }
     });
