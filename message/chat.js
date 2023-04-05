@@ -32,45 +32,52 @@ function chat() {
                 } else {
                     messages = chat;
                 }
-                try {
-                    await (await message.getChat()).sendStateTyping();
-                    const input = message.body;
-                    messages.push({
-                        role: "user",
-                        content: input
-                    });
-                    const completion = await openai.createChatCompletion({
-                        model: 'gpt-3.5-turbo',
-                        messages: messages
-                    });
-                    const reply = completion.data.choices[0].message;
-                    messages.push(reply);
-                    if (message.from.slice(-5) === '@g.us') {
-                        const usrLogFile = file + '.usr';
-                        let usrList = JSON.parse(fs.readFileSync(usrLogFile));
-                        usrList.push({user: contact.pushname + " [" + contact.id.user + "]"});
-                        usrList.push({user: "bot [" + client.info.wid.user + "]"});
-                        const usrLog = JSON.stringify(usrList, null, 4);
-                        fs.writeFileSync(usrLogFile, usrLog);
-                    }
-                    if (chat.length > 15) {
-                        chatDate = chatDate.concat(messagesOri);
-                        messagesOri = chatDate;
-                        messagesOri = messagesOri.concat(messages);
-                        const json = JSON.stringify(messagesOri, null, 4);
-                        fs.writeFileSync(file, json);
-                    } else {
-                        chatDate = chatDate.concat(messages);
-                        messages = chatDate;
-                        const json = JSON.stringify(messages, null, 4);
-                        fs.writeFileSync(file, json);
-                    }
-                    await client.sendMessage(message.from, reply.content);
-                } catch (err) {
-                    if (err.code === 'ECONNRESET') {
-                        await client.sendMessage(message.from, 'Error Connection to OpenAI\nPlease try again later');
-                    } else {
-                        console.log(err);
+                for (let tries = 1; tries <= 5; tries++) {
+                    try {
+                        await (await message.getChat()).sendStateTyping();
+                        const input = message.body;
+                        messages.push({
+                            role: "user",
+                            content: input
+                        });
+                        const completion = await openai.createChatCompletion({
+                            model: 'gpt-3.5-turbo',
+                            messages: messages
+                        });
+                        const reply = completion.data.choices[0].message;
+                        messages.push(reply);
+                        if (message.from.slice(-5) === '@g.us') {
+                            const usrLogFile = file + '.usr';
+                            let usrList = JSON.parse(fs.readFileSync(usrLogFile));
+                            usrList.push({user: contact.pushname + " [" + contact.id.user + "]"});
+                            usrList.push({user: "bot [" + client.info.wid.user + "]"});
+                            const usrLog = JSON.stringify(usrList, null, 4);
+                            fs.writeFileSync(usrLogFile, usrLog);
+                        }
+                        if (chat.length > 15) {
+                            chatDate = chatDate.concat(messagesOri);
+                            messagesOri = chatDate;
+                            messagesOri = messagesOri.concat(messages);
+                            const json = JSON.stringify(messagesOri, null, 4);
+                            fs.writeFileSync(file, json);
+                        } else {
+                            chatDate = chatDate.concat(messages);
+                            messages = chatDate;
+                            const json = JSON.stringify(messages, null, 4);
+                            fs.writeFileSync(file, json);
+                        }
+                        await client.sendMessage(message.from, reply.content);
+                        break;
+                    } catch (err) {
+                        if (tries === 5) {
+                            if (err.code === 'ECONNRESET') {
+                                await client.sendMessage(message.from, 'Error Connection to OpenAI\nPlease try again later');
+                            } else if (err.response.status === 429) {
+                                await client.sendMessage(message.from, 'Error: 429 Too Many Request\nPlease try again later');
+                            } else {
+                                console.log(err);
+                            }
+                        }
                     }
                 }
             }
