@@ -34,8 +34,10 @@ function commands() {
         let i = 1;
         let iMax = 9999;
         let fileOld;
+        let masterStopFolder = 'message/messageLogs/stoppedChats/';
         let folderStop = 'message/messageLogs/stoppedChats/' + contact.id.user + '/';
         if (message.from.slice(-5) === '@g.us') {
+            masterStopFolder = 'message/messageLogs/groups/stoppedChats/';
             folderStop = 'message/messageLogs/groups/stoppedChats/' + message.from.slice(0, -5) + '/';
         }
         if (message.body.slice(0, 6) === '/stop ') {
@@ -47,6 +49,9 @@ function commands() {
                 await client.sendMessage(message.from, 'You did\'nt start the chat\nPlease use /start to start a chat');
             } else {
                 if (!fs.existsSync(folderStop)) {
+                    if (!fs.existsSync(masterStopFolder)) {
+                        fs.mkdirSync(masterStopFolder);
+                    }
                     fs.mkdirSync(folderStop);
                 }
                 while (i < iMax) {
