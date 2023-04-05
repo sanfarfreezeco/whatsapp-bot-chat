@@ -108,7 +108,6 @@ function commands() {
                 await client.sendMessage(message.from, 'Use /history show [list number]\nTo show chat history from your list');
             }
         }
-
         if (message.body === '/history show') {
             if (!fs.existsSync(folderStop)) {
                 await client.sendMessage(message.from, 'You don\'t have any chat history!');
