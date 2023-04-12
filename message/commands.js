@@ -1,6 +1,7 @@
-const { client } = require('../client');
+const { client, MessageMedia } = require('../client');
 const fs = require('fs');
 const date = require('date-and-time');
+const sharp = require("sharp");
 
 function commands() {
     client.on('message', async (message) => {
@@ -157,6 +158,35 @@ function commands() {
                     }
                     await client.sendMessage(message.from, 'Last Chats: ' + parseHistoryDate[0].last_chatting + '\nStopped At: ' + parseHistoryDate[0].stopped_at + '\n\n' + chats.join('\n\n====================\n\n'));
                 }
+            }
+        }
+
+        if (message.body.slice(0, 8) === '/sticker') {
+            if (message.from.slice(-5) === '@g.us') await client.sendMessage(message.from, 'This Feature is not available on Group Chat');
+            if (message.hasMedia) {
+                if (!fs.existsSync('message/temp')) fs.mkdirSync('message/temp');
+                const stickerTmp = 'message/sticker_' + contact.id.user + '.png';
+                const imageData = (await message.downloadMedia()).data;
+                const imageBuffer = Buffer.from(imageData, 'base64');
+                const imageBufferPNG = await sharp(imageBuffer).png().toBuffer();
+                fs.writeFileSync(stickerTmp, imageBufferPNG);
+                const sticker = MessageMedia.fromFilePath(stickerTmp);
+                if (message.body.slice(0, 9) === '/sticker ') {
+                    const name = message.body.slice(9);
+                    await client.sendMessage(message.from, sticker, {
+                        sendMediaAsSticker: true,
+                        stickerAuthor: 'Created by ' + client.info.pushname,
+                        stickerName: name
+                    });
+                } else {
+                    await client.sendMessage(message.from, sticker, {
+                        sendMediaAsSticker: true,
+                        stickerAuthor: 'Created by ' + client.info.pushname,
+                        stickerName: 'Sticker'
+                    });
+                }
+            } else {
+                await client.sendMessage(message.from, 'Please use this command with media attached');
             }
         }
     });
